@@ -1,6 +1,5 @@
-
 import { useState, useEffect, useRef } from "react";
-import { Mic, MicOff, Play, Stop } from "lucide-react";
+import { Mic, MicOff, Play, CircleStop } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type PracticeMode = "freestyle" | "scripted" | "roleplay" | "interview";
@@ -28,14 +27,12 @@ export function PracticeSession({
   
   const startRecording = async () => {
     try {
-      // Reset state
       audioChunksRef.current = [];
       setRecordingTime(0);
       setTranscript("");
       setAudioBlob(null);
       setAudioURL(null);
       
-      // Start recording
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
       
@@ -51,7 +48,6 @@ export function PracticeSession({
         const url = URL.createObjectURL(audioBlob);
         setAudioURL(url);
         
-        // Simulate transcription and analysis
         simulateTranscription(audioBlob);
       };
       
@@ -59,7 +55,6 @@ export function PracticeSession({
       setMediaRecorder(recorder);
       setIsRecording(true);
       
-      // Start timer
       timerRef.current = window.setInterval(() => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
@@ -80,22 +75,18 @@ export function PracticeSession({
     mediaRecorder.stop();
     setIsRecording(false);
     
-    // Stop timer
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
     
-    // Stop tracks
     mediaRecorder.stream.getTracks().forEach(track => track.stop());
   };
   
   const simulateTranscription = (blob: Blob) => {
     setIsProcessing(true);
     
-    // Simulating API call for transcription
     setTimeout(() => {
-      // Mock transcript
       const mockTranscript = 
         "Thank you for this opportunity to speak. I believe that effective communication is the cornerstone of success in any field. " +
         "Um, when we look at great leaders throughout history, we see that their ability to articulate their vision was um, critical to their success. " +
@@ -104,10 +95,8 @@ export function PracticeSession({
       setTranscript(mockTranscript);
       setIsProcessing(false);
       
-      // Generate feedback
       const mockAnalysis = generateMockAnalysis(mockTranscript);
       
-      // If callback provided, send session data
       if (onSessionComplete) {
         onSessionComplete({
           transcript: mockTranscript,
@@ -122,7 +111,6 @@ export function PracticeSession({
   };
   
   const generateMockAnalysis = (text: string) => {
-    // Count filler words
     const fillerWords = ["um", "uh", "like", "you know", "actually"];
     const fillerCount = fillerWords.reduce((count, word) => {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
@@ -130,12 +118,10 @@ export function PracticeSession({
       return count + (matches ? matches.length : 0);
     }, 0);
     
-    // Calculate words per minute (assuming average 150 WPM)
     const words = text.split(' ').length;
     const minutes = recordingTime / 60;
     const wpm = Math.round(words / minutes);
     
-    // Mock scores
     return {
       pacing: {
         wpm,
@@ -168,14 +154,12 @@ export function PracticeSession({
     };
   };
   
-  // Format time for display
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
   
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -213,7 +197,7 @@ export function PracticeSession({
                 onClick={stopRecording}
                 className="flex items-center gap-2 bg-voicecraft-error text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-red-600 transition-colors"
               >
-                <Stop className="h-5 w-5" />
+                <CircleStop className="h-5 w-5" />
                 Stop Recording
               </button>
             </>
