@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,22 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom colors for our app
+				voicecraft: {
+					primary: '#6E59A5',
+					secondary: '#9b87f5',
+					accent: '#0EA5E9',
+					success: '#10b981',
+					warning: '#f97316',
+					error: '#ef4444',
+					light: '#f8fafc',
+					dark: '#1A1F2C',
+				},
+			},
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				heading: ['Poppins', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +100,45 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-gentle': {
+					'0%, 100%': { 
+						opacity: 1,
+						transform: 'scale(1)'
+					},
+					'50%': { 
+						opacity: 0.85,
+						transform: 'scale(1.05)' 
+					},
+				},
+				'fade-in': {
+					'0%': { 
+						opacity: 0,
+						transform: 'translateY(10px)'
+					},
+					'100%': { 
+						opacity: 1,
+						transform: 'translateY(0)'
+					},
+				},
+				'recording-pulse': {
+					'0%': { 
+						boxShadow: '0 0 0 0 rgba(239, 68, 68, 0.7)'
+					},
+					'70%': { 
+						boxShadow: '0 0 0 10px rgba(239, 68, 68, 0)'
+					},
+					'100%': { 
+						boxShadow: '0 0 0 0 rgba(239, 68, 68, 0)'
+					},
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-gentle': 'pulse-gentle 2s infinite ease-in-out',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'recording-pulse': 'recording-pulse 1.5s infinite'
 			}
 		}
 	},
